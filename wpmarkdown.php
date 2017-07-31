@@ -170,57 +170,61 @@ class WP_Markdown {
 		if ( get_current_screen()->base !== 'post' ) {
 			return;
 		}
-
-		echo '<script type="text/javascript">
-			// Init the editor
-			var simplemde = new SimpleMDE({
+		?>
+		<script type="text/javascript">
+			
+			// Initialize the editor.
+			var simplemde = new SimpleMDE( {
 				spellChecker: false,
-				element: document.getElementById("content")
-			});
+				element: document.getElementById( 'content' )
+			} );
 
-			// Change zIndex when toggle full screen
-			var change_zIndex = function(editor) {
-				// Give it some time to finish the transition
-				setTimeout(function() {
+			// Change zIndex when toggle full screen.
+			var change_zIndex = function( editor ) {
+
+				// Give it some time to finish the transition.
+				setTimeout( function() {
 					var cm = editor.codemirror;
 					var wrap = cm.getWrapperElement();
-					if(/fullscreen/.test(wrap.previousSibling.className) ) {
-						document.getElementById("wp-content-editor-container").style.zIndex = 999999;
+					if( /fullscreen/.test( wrap.previousSibling.className ) ) {
+						document.getElementById( 'wp-content-editor-container' ).style.zIndex = 999999;
 					} else {
-						document.getElementById("wp-content-editor-container").style.zIndex = 1;
+						document.getElementById( 'wp-content-editor-container' ).style.zIndex = 1;
 					}
-				}, 2);
+				}, 2 );
 			}
 
-			var toggleFullScreenButton = document.getElementsByClassName("fa-arrows-alt");
+			var toggleFullScreenButton = document.getElementsByClassName( 'fa-arrows-alt' );
 			toggleFullScreenButton[0].onclick = function() {
-				SimpleMDE.toggleFullScreen(simplemde);
-				change_zIndex(simplemde);
+				SimpleMDE.toggleFullScreen( simplemde );
+				change_zIndex( simplemde );
 			}
 
-			var toggleSideBySideButton = document.getElementsByClassName("fa-columns");
+			var toggleSideBySideButton = document.getElementsByClassName( 'fa-columns' );
 			toggleSideBySideButton[0].onclick = function() {
-				SimpleMDE.toggleSideBySide(simplemde);
+				SimpleMDE.toggleSideBySide( simplemde );
 				change_zIndex(simplemde);
 			}
 
-			var helpButton = document.getElementsByClassName("fa-question-circle");
-			helpButton[0].href = "http://seothemes.com/markdown-guide.html";
+			var helpButton = document.getElementsByClassName( 'fa-question-circle' );
+			helpButton[0].href = 'https://guides.github.com/features/mastering-markdown/';
 
-			if (typeof jQuery !== "undefined") {
-				jQuery(document).ready(function(){
-					// Remove the quicktags-toolbar
-					document.getElementById("ed_toolbar").style.display = "none";
+			if ( typeof jQuery !== 'undefined' ) {
+				jQuery( document ).ready( function() {
 
-					// Integrate with WP Media module
+					// Remove the quicktags toolbar.
+					document.getElementById( 'ed_toolbar' ).style.display = 'none';
+
+					// Integrate with WP Media module.
 					var original_wp_media_editor_insert = wp.media.editor.insert;
 					wp.media.editor.insert = function( html ) {
-						original_wp_media_editor_insert(html);
-						simplemde.codemirror.replaceSelection(html);
+						original_wp_media_editor_insert( html );
+						simplemde.codemirror.replaceSelection( html );
 					}
-				});
+				} );
 			}
-		</script>';
+		</script>;
+		<?php
 	}
 
 	/**
