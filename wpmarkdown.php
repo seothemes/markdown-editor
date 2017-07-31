@@ -1,12 +1,15 @@
 <?php
 /**
  * Plugin Name: WordPress Markdown
- * Plugin URI: https://github.com/seothemes/wpmarkdown
+ * Plugin URI:  https://github.com/seothemes/wpmarkdown
  * Description: Replaces the default WordPress editor with a Markdown editor for your posts and pages.
- * Version: 0.1.0
- * Author: Seo Themes
- * Author URI: https://www.seothemes.com
- * License: GPLv2 or later
+ * Version:     0.1.0
+ * Author:      Seo Themes
+ * Author URI:  https://www.seothemes.com
+ * License:     GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain: jetpack
+ * Domain Path: /languages
  *
  * @package wpmarkdown
  */
