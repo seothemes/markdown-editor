@@ -223,7 +223,7 @@ class WP_Markdown {
 					}
 				} );
 			}
-		</script>;
+		</script>
 		<?php
 	}
 
