@@ -88,6 +88,26 @@ class WP_Markdown {
 	}
 
 	/**
+	 * Markdown post types.
+	 *
+	 * @since  0.1.0
+	 * @return bool
+	 */
+	function post_types() {
+
+		$post_types = apply_filters( 'markdown_post_types', array(
+			'post',
+			'page',
+		) );
+
+		if ( ! in_array( get_current_screen()->post_type, $post_types ) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
 	 * Enqueue scripts and styles.
 	 *
 	 * @since 0.1.0
@@ -95,8 +115,8 @@ class WP_Markdown {
 	 */
 	function enqueue_scripts_styles() {
 
-		// Only enqueue stuff on the post editor page.
-		if ( get_current_screen()->base !== 'post' ) {
+		// Only enqueue stuff on defined post types.
+		if ( false === $this->post_types() ) {
 			return;
 		}
 
@@ -117,7 +137,7 @@ class WP_Markdown {
 		add_filter( 'pre_option_' . WPCom_Markdown::POST_OPTION, '__return_true' );
 		add_action( 'admin_init', array( $this, 'jetpack_markdown_posting_always_on' ), 11 );
 		add_action( 'plugins_loaded', array( $this, 'jetpack_markdown_load_textdomain' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'jetpack_markdown_settings_link' ) );
+		// add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'jetpack_markdown_settings_link' ) );
 	}
 
 	/**
@@ -235,6 +255,12 @@ class WP_Markdown {
 	 * @return array
 	 */
 	function quicktags_settings( $qt_init ) {
+
+		// Only remove buttons on defined post types.
+		if ( false === $this->post_types() ) {
+			return $qt_init;
+		}
+
 		$qt_init['buttons'] = ' ';
 		return $qt_init;
 	}
