@@ -57,7 +57,7 @@ class WP_Markdown {
 		add_action( 'admin_footer', array( $this, 'init_editor' ) );
 
 		// Remove quicktags buttons.
-		add_filter( 'quicktags_settings', array( $this, 'quicktags_settings' ), $editor_id = 'content' );
+		add_filter( 'quicktags_settings', array( $this, 'quicktags_settings' ), 'content' );
 
 		// Load Jetpack Markdown module.
 		$this->load_jetpack_markdown_module();
@@ -100,9 +100,9 @@ class WP_Markdown {
 			return;
 		}
 
-		wp_enqueue_script( 'simplemde-js', $this->plugin_url( '/assets/scripts/simplemde.min.js' ) );
-		wp_enqueue_style( 'simplemde-css', $this->plugin_url( '/assets/styles/simplemde.min.css' ) );
-		wp_enqueue_style( 'custom-css', $this->plugin_url( '/assets/styles/style.css' ) );
+		wp_enqueue_script( 'simplemde-js', $this->plugin_url( 'assets/scripts/simplemde.min.js' ) );
+		wp_enqueue_style( 'simplemde-css', $this->plugin_url( 'assets/styles/simplemde.min.css' ) );
+		wp_enqueue_style( 'custom-css', $this->plugin_url( 'assets/styles/style.css' ) );
 	}
 
 	/**
@@ -247,7 +247,7 @@ class WP_Markdown {
 	 * @return string
 	 */
 	function plugin_url( $path ) {
-		return plugins_url( 'wpmarkdown/' . $path );
+		return plugin_dir_url( __FILE__ ) . $path;
 	}
 
 	/**
