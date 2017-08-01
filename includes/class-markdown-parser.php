@@ -12,6 +12,10 @@
 #
 # Tweaked to remove WordPress interface
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	 die;
+}
 
 define( 'MARKDOWN_VERSION',  "1.0.2" ); # 29 Nov 2013
 define( 'MARKDOWNEXTRA_VERSION',  "1.2.8" ); # 29 Nov 2013

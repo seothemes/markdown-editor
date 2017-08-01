@@ -9,6 +9,11 @@
  * Add a few extras from GitHub's Markdown implementation. Must be used in a WordPress environment.
  */
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	 die;
+}
+
 class WPCom_GHF_Markdown_Parser extends MarkdownExtra_Parser {
 
 	/**

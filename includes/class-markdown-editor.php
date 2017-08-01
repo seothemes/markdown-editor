@@ -1,17 +1,8 @@
 <?php
 /**
- * Plugin Name: WordPress Markdown
- * Plugin URI:  https://github.com/seothemes/wpmarkdown
- * Description: Replaces the default WordPress editor with a Markdown editor for your posts and pages.
- * Version:     0.1.0
- * Author:      Seo Themes
- * Author URI:  https://www.seothemes.com
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: jetpack
- * Domain Path: /languages
+ * Contains the main plugin class for the Markdown Editor.
  *
- * @package wpmarkdown
+ * @package Markdown_Editor
  */
 
 // If this file is called directly, abort.
@@ -19,19 +10,10 @@ if ( ! defined( 'WPINC' ) ) {
 	 die;
 }
 
-// Define constants.
-define( 'PLUGIN_VERSION', '1.0' );
-define( 'MINIMUM_WP_VERSION', '4.8' );
-
-// Check if Jetpack module is enabled.
-if ( ! class_exists( 'WPCom_Markdown' ) ) {
-	include_once dirname( __FILE__ ) . '/includes/easy-markdown.php';
-}
-
 /**
  * Main plugin class.
  */
-class WP_Markdown {
+class Markdown_Editor {
 
 	/**
 	 * Default instance.
@@ -88,7 +70,7 @@ class WP_Markdown {
 	}
 
 	/**
-	 * Markdown post types.
+	 * Filter markdown post types.
 	 *
 	 * @since  0.1.0
 	 * @return bool
@@ -115,8 +97,8 @@ class WP_Markdown {
 	 */
 	function enqueue_scripts_styles() {
 
-		// Only enqueue stuff on defined post types.
-		if ( false === $this->post_types() ) {
+		// Only enqueue on specified post types.
+		if ( ! $this->post_types() ) {
 			return;
 		}
 
@@ -187,7 +169,9 @@ class WP_Markdown {
 	 * @return void
 	 */
 	function init_editor() {
-		if ( get_current_screen()->base !== 'post' ) {
+
+		// Only initialize on specified post types.
+		if ( ! $this->post_types() ) {
 			return;
 		}
 		?>
@@ -256,8 +240,8 @@ class WP_Markdown {
 	 */
 	function quicktags_settings( $qt_init ) {
 
-		// Only remove buttons on defined post types.
-		if ( false === $this->post_types() ) {
+		// Only remove buttons on specified post types.
+		if ( ! $this->post_types() ) {
 			return $qt_init;
 		}
 
@@ -273,7 +257,7 @@ class WP_Markdown {
 	 * @return string
 	 */
 	function plugin_url( $path ) {
-		return plugin_dir_url( __FILE__ ) . $path;
+		return plugin_dir_url( __DIR__ ) . $path;
 	}
 
 	/**
@@ -299,6 +283,3 @@ class WP_Markdown {
 	}
 
 }
-
-// Get class instance.
-WP_Markdown::get_instance();

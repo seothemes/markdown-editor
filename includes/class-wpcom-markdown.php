@@ -361,9 +361,9 @@ class WPCom_Markdown {
 
 		if ( ! self::$parser ) {
 			if ( ! class_exists( 'MarkdownExtra_Parser' ) ) {
-				require_once( 'extra.php' );
+				require_once( 'class-markdown-parser.php' );
 			}
-			require_once( 'gfm.php' );
+			require_once( 'class-wpcom-ghf-markdown-parser.php' );
 			self::$parser = new WPCom_GHF_Markdown_Parser;
 		}
 
