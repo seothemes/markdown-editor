@@ -78,7 +78,7 @@ class Markdown_Editor {
 			'page',
 		) );
 
-		if ( ! in_array( get_current_screen()->post_type, $post_types ) ) {
+		if ( function_exists( 'get_current_screen' ) && ! in_array( get_current_screen()->post_type, $post_types ) ) {
 			return false;
 		} else {
 			return true;
