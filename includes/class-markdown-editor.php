@@ -1,8 +1,8 @@
 <?php
 /**
- * Contains the main plugin class for the Markdown Editor.
+ * Contains the main plugin class for the Markdown editor.
  *
- * @package Markdown_Editor
+ * @package Markdown
  */
 
 // If this file is called directly, abort.

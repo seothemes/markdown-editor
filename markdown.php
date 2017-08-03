@@ -11,7 +11,7 @@
  * Text Domain: jetpack
  * Domain Path: /languages
  *
- * @package Markdown_Editor
+ * @package Markdown
  */
 
 // If this file is called directly, abort.

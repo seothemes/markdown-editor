@@ -1,6 +1,4 @@
-
-Update Code   Save Snippet
-=== Markdown Editor ===
+=== Markdown ===
 Contributors: seothemes
 Tags: markdown, editor
 Donate link: https://seothemes.com
@@ -12,11 +10,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 Replaces the default WordPress editor with a Markdown editor for your posts and pages.
 
 == Description ==
-Markdown Editor replaces the default WordPress editor with a Markdown editor for your posts and pages. This plugin uses the Jetpack Markdown module for converting Markdown into HTML and plays nicely with Jetpack if both plugins are installed.
+Markdown replaces the default WordPress editor with a Markdown editor for your posts and pages. This plugin uses the Jetpack Markdown module for converting Markdown into HTML and plays nicely with Jetpack if both plugins are installed.
 
 There are 4 editor layouts to choose from when writing posts: default, preview, full-screen and split screen. Changes are updated automatically allowing you to preview your content as you write.
 
-Markdown Editor is developer friendly. Filters are available for choosing which post types the Markdown editor should be applied to. 
+Markdown is developer friendly. Filters are available for choosing which post types the Markdown editor should be applied to. 
 
 == Installation ==
 
