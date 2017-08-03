@@ -30,10 +30,6 @@ class Markdown_Editor {
 	 */
 	private function __construct() {
 
-		// Activation / Deactivation hooks.
-		register_activation_hook( __FILE__, array( $this, 'plugin_activation' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'plugin_deactivation' ) );
-
 		// Load markdown editor.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
 		add_action( 'admin_footer', array( $this, 'init_editor' ) );
