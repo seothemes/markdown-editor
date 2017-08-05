@@ -224,3 +224,7 @@ img {
 #poststuff .editor-preview-side h6 {
     font-size: 1.2rem;
 }
+
+.quicktags-toolbar {
+    display: none;
+}

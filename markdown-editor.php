@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Markdown
- * Plugin URI:  https://github.com/seothemes/markdown
+ * Plugin Name: Markdown Editor
+ * Plugin URI:  https://github.com/seothemes/markdown-editor
  * Description: Replaces the default WordPress editor with a Markdown editor for your posts and pages.
- * Version:     0.1.0
+ * Version:     0.1.1
  * Author:      SEO Themes
  * Author URI:  https://www.seothemes.com
  * License:     GPL-2.0+
@@ -11,7 +11,7 @@
  * Text Domain: jetpack
  * Domain Path: /languages
  *
- * @package Markdown
+ * @package markdown-editor
  */
 
 // If this file is called directly, abort.
@@ -20,23 +20,19 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Define constants.
-define( 'PLUGIN_VERSION', '0.1.0' );
+define( 'PLUGIN_VERSION', '0.1.1' );
 define( 'MINIMUM_WP_VERSION', '4.8' );
-define( 'DIR_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PLUGIN_NAME', plugin_basename( __FILE__ ) );
+define( 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // Check if Jetpack module is enabled.
 if ( ! class_exists( 'WPCom_Markdown' ) ) {
-	include_once dirname( __FILE__ ) . '/includes/class-wpcom-markdown.php';
+	include_once PLUGIN_DIR . 'includes/class-wpcom-markdown.php';
 }
 
 // Load Markdown class.
-include_once dirname( __FILE__ ) . '/includes/class-markdown-editor.php';
+include_once PLUGIN_DIR . 'includes/class-markdown-editor.php';
 
 // Get class instance.
 Markdown_Editor::get_instance();
-
-// Register activation hook.
-register_activation_hook( __FILE__, array( 'Markdown_Editor', 'plugin_activation' ) );
-
-// Register deactivation hook.
-register_deactivation_hook( __FILE__, array( 'Markdown_Editor', 'plugin_deactivation' ) );

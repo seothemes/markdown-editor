@@ -1,8 +1,8 @@
 <?php
 /**
- * Contains the main plugin class for the Markdown editor.
+ * Contains the main plugin class for the Markdown Editor.
  *
- * @package Markdown
+ * @package markdown-editor
  */
 
 // If this file is called directly, abort.
@@ -24,6 +24,17 @@ class Markdown_Editor {
 	private static $instance;
 
 	/**
+	 * Default post types.
+	 *
+	 * @since 0.1.1
+	 * @var string $instance.
+	 */
+	private static $post_types = array(
+		'post',
+		'page',
+	);
+
+	/**
 	 * Sets up the Markdown editor.
 	 *
 	 * @since 0.1.0
@@ -37,8 +48,12 @@ class Markdown_Editor {
 		// Remove quicktags buttons.
 		add_filter( 'quicktags_settings', array( $this, 'quicktags_settings' ), 'content' );
 
+		// Remove rich editing.
+		add_filter( 'user_can_richedit', array( $this, 'disable_rich_editing' ) );
+
 		// Load Jetpack Markdown module.
 		$this->load_jetpack_markdown_module();
+
 	}
 
 	/**
@@ -71,18 +86,35 @@ class Markdown_Editor {
 	 * @since  0.1.0
 	 * @return bool
 	 */
+	function get_post_types() {
+
+		return apply_filters( 'markdown_editor_post_types', self::$post_types );
+
+	}
+
+	/**
+	 * Check post types.
+	 *
+	 * @since  0.1.0
+	 * @return bool
+	 */
 	function post_types() {
 
-		$post_types = apply_filters( 'markdown_post_types', array(
-			'post',
-			'page',
-		) );
-
-		if ( function_exists( 'get_current_screen' ) && ! in_array( get_current_screen()->post_type, $post_types ) ) {
+		// Admin only.
+		if ( ! function_exists( 'get_current_screen' ) ) {
 			return false;
-		} else {
+		}
+
+		// Edit comment screen.
+		if ( WPCom_Markdown::is_commenting_enabled() && 'comment' === get_current_screen()->base ) {
 			return true;
 		}
+
+		// Post edit screen.
+		if ( in_array( get_current_screen()->post_type, $this->get_post_types() ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -98,9 +130,9 @@ class Markdown_Editor {
 			return;
 		}
 
-		wp_enqueue_script( 'simplemde-js', $this->plugin_url( 'assets/scripts/simplemde.min.js' ) );
-		wp_enqueue_style( 'simplemde-css', $this->plugin_url( 'assets/styles/simplemde.min.css' ) );
-		wp_enqueue_style( 'custom-css', $this->plugin_url( 'assets/styles/style.css' ) );
+		wp_enqueue_script( 'simplemde-js', PLUGIN_URL . 'assets/scripts/simplemde.min.js' );
+		wp_enqueue_style( 'simplemde-css', PLUGIN_URL . 'assets/styles/simplemde.min.css' );
+		wp_enqueue_style( 'custom-css', PLUGIN_URL . 'assets/styles/style.css' );
 	}
 
 	/**
@@ -115,7 +147,8 @@ class Markdown_Editor {
 		add_filter( 'pre_option_' . WPCom_Markdown::POST_OPTION, '__return_true' );
 		add_action( 'admin_init', array( $this, 'jetpack_markdown_posting_always_on' ), 11 );
 		add_action( 'plugins_loaded', array( $this, 'jetpack_markdown_load_textdomain' ) );
-		// add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'jetpack_markdown_settings_link' ) );
+		add_filter( 'plugin_action_links_' . PLUGIN_NAME, array( $this, 'jetpack_markdown_settings_link' ) );
+
 	}
 
 	/**
@@ -138,7 +171,7 @@ class Markdown_Editor {
 	 * @return void
 	 */
 	function jetpack_markdown_load_textdomain() {
-		load_plugin_textdomain( 'jetpack', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'jetpack', false, PLUGIN_DIR . 'languages/' );
 	}
 
 	/**
@@ -212,9 +245,6 @@ class Markdown_Editor {
 			if ( typeof jQuery !== 'undefined' ) {
 				jQuery( document ).ready( function() {
 
-					// Remove the quicktags toolbar.
-					document.getElementById( 'ed_toolbar' ).style.display = 'none';
-
 					// Integrate with WP Media module.
 					var original_wp_media_editor_insert = wp.media.editor.insert;
 					wp.media.editor.insert = function( html ) {
@@ -246,36 +276,17 @@ class Markdown_Editor {
 	}
 
 	/**
-	 * Get plugin URl.
+	 * Disable rich editing.
 	 *
-	 * @since 0.1.0
-	 * @param  string $path Plugin URL path.
-	 * @return string
+	 * @since  0.1.1
+	 * @param  array $default Default post types.
+	 * @return array
 	 */
-	function plugin_url( $path ) {
-		return plugin_dir_url( __DIR__ ) . $path;
-	}
+	function disable_rich_editing( $default ) {
 
-	/**
-	 * Plugin activation function.
-	 *
-	 * @since 0.1.0
-	 * @return void
-	 */
-	function plugin_activation() {
-		global $wpdb;
-		$wpdb->query( 'UPDATE `' . $wpdb->prefix . "usermeta` SET `meta_value` = 'false' WHERE `meta_key` = 'rich_editing'" );
+		if ( in_array( get_post_type(), $this->get_post_types(), true ) ) {
+			return false;
+		}
+		return $default;
 	}
-
-	/**
-	 * Plugin deactivation function.
-	 *
-	 * @since 0.1.0
-	 * @return void
-	 */
-	function plugin_deactivation() {
-		global $wpdb;
-		$wpdb->query( 'UPDATE `' . $wpdb->prefix . "usermeta` SET `meta_value` = 'true' WHERE `meta_key` = 'rich_editing'" );
-	}
-
 }
