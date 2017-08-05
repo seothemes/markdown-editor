@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 	 die;
 }
 
-class WPCom_GHF_Markdown_Parser extends MarkdownExtra_Parser {
+class GHF_Markdown_Parser extends MarkdownExtra_Parser {
 
 	/**
 	 * Hooray somewhat arbitrary numbers that are fearful of 1.0.x.

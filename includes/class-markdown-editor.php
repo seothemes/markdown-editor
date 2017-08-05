@@ -87,9 +87,7 @@ class Markdown_Editor {
 	 * @return bool
 	 */
 	function get_post_types() {
-
 		return apply_filters( 'markdown_editor_post_types', self::$post_types );
-
 	}
 
 	/**
@@ -106,7 +104,7 @@ class Markdown_Editor {
 		}
 
 		// Edit comment screen.
-		if ( WPCom_Markdown::is_commenting_enabled() && 'comment' === get_current_screen()->base ) {
+		if ( Easy_Markdown::is_commenting_enabled() && 'comment' === get_current_screen()->base ) {
 			return true;
 		}
 
@@ -144,7 +142,7 @@ class Markdown_Editor {
 	function load_jetpack_markdown_module() {
 
 		// If the module is active, let's make this active for posting. Comments will still be optional.
-		add_filter( 'pre_option_' . WPCom_Markdown::POST_OPTION, '__return_true' );
+		add_filter( 'pre_option_' . Easy_Markdown::POST_OPTION, '__return_true' );
 		add_action( 'admin_init', array( $this, 'jetpack_markdown_posting_always_on' ), 11 );
 		add_action( 'plugins_loaded', array( $this, 'jetpack_markdown_load_textdomain' ) );
 		add_filter( 'plugin_action_links_' . PLUGIN_NAME, array( $this, 'jetpack_markdown_settings_link' ) );
@@ -159,8 +157,8 @@ class Markdown_Editor {
 	 */
 	function jetpack_markdown_posting_always_on() {
 		global $wp_settings_fields;
-		if ( isset( $wp_settings_fields['writing']['default'][ WPCom_Markdown::POST_OPTION ] ) ) {
-			unset( $wp_settings_fields['writing']['default'][ WPCom_Markdown::POST_OPTION ] );
+		if ( isset( $wp_settings_fields['writing']['default'][ Easy_Markdown::POST_OPTION ] ) ) {
+			unset( $wp_settings_fields['writing']['default'][ Easy_Markdown::POST_OPTION ] );
 		}
 	}
 
@@ -184,7 +182,7 @@ class Markdown_Editor {
 	function jetpack_markdown_settings_link( $actions ) {
 		return array_merge(
 			array(
-				'settings' => sprintf( '<a href="%s">%s</a>', 'options-discussion.php#' . WPCom_Markdown::COMMENT_OPTION, __( 'Settings', 'jetpack' ) ),
+				'settings' => sprintf( '<a href="%s">%s</a>', 'options-discussion.php#' . Easy_Markdown::COMMENT_OPTION, __( 'Settings', 'jetpack' ) ),
 			),
 			$actions
 		);

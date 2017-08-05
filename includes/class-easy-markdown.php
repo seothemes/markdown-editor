@@ -36,7 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
 	 die;
 }
 
-class WPCom_Markdown {
+class Easy_Markdown {
 
 
 	const POST_OPTION = 'wpcom_publish_posts_with_markdown';
@@ -54,7 +54,7 @@ class WPCom_Markdown {
 
 	/**
 	 * Yay singletons!
-	 * @return object WPCom_Markdown instance
+	 * @return object Easy_Markdown instance
 	 */
 	public static function get_instance() {
 		if ( ! self::$instance )
@@ -355,7 +355,7 @@ class WPCom_Markdown {
 	 * Get our Markdown parser object, optionally requiring all of
 	 * our needed classes and instantiating our parser.
 	 *
-	 * @return object WPCom_GHF_Markdown_Parser instance.
+	 * @return object GHF_Markdown_Parser instance.
 	 */
 	public function get_parser() {
 
@@ -363,8 +363,8 @@ class WPCom_Markdown {
 			if ( ! class_exists( 'MarkdownExtra_Parser' ) ) {
 				require_once( 'class-markdown-parser.php' );
 			}
-			require_once( 'class-wpcom-ghf-markdown-parser.php' );
-			self::$parser = new WPCom_GHF_Markdown_Parser;
+			require_once( 'class-ghf-markdown-parser.php' );
+			self::$parser = new GHF_Markdown_Parser;
 		}
 
 		return self::$parser;
@@ -732,7 +732,7 @@ class WPCom_Markdown {
 	 */
 	public function uncache_munged_posts() {
 		// $this context gets lost in testing sometimes. Weird.
-		foreach( WPCom_Markdown::get_instance()->posts_to_uncache as $post_id ) {
+		foreach( Easy_Markdown::get_instance()->posts_to_uncache as $post_id ) {
 			wp_cache_delete( $post_id, 'posts' );
 		}
 	}
@@ -772,4 +772,4 @@ class WPCom_Markdown {
 	private function __construct() {}
 }
 
-add_action( 'init', array( WPCom_Markdown::get_instance(), 'load' ) );
+add_action( 'init', array( Easy_Markdown::get_instance(), 'load' ) );

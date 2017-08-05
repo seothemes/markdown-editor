@@ -28,7 +28,7 @@ define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // Check if Jetpack module is enabled.
 if ( ! class_exists( 'WPCom_Markdown' ) ) {
-	include_once PLUGIN_DIR . 'includes/class-wpcom-markdown.php';
+	include_once PLUGIN_DIR . 'includes/class-easy-markdown.php';
 }
 
 // Load Markdown class.
