@@ -24,22 +24,14 @@ class Markdown_Editor {
 	private static $instance;
 
 	/**
-	 * Default post types.
-	 *
-	 * @since 0.1.1
-	 * @var string $instance.
-	 */
-	private static $post_types = array(
-		'post',
-		'page',
-	);
-
-	/**
 	 * Sets up the Markdown editor.
 	 *
 	 * @since 0.1.0
 	 */
 	private function __construct() {
+
+		// Add default post type support.
+		add_post_type_support( 'post', 'wpcom-markdown' );
 
 		// Load markdown editor.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
@@ -86,33 +78,8 @@ class Markdown_Editor {
 	 * @since  0.1.0
 	 * @return bool
 	 */
-	function get_post_types() {
-		return apply_filters( 'markdown_editor_post_types', self::$post_types );
-	}
-
-	/**
-	 * Check post types.
-	 *
-	 * @since  0.1.0
-	 * @return bool
-	 */
-	function post_types() {
-
-		// Admin only.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-
-		// Edit comment screen.
-		if ( Easy_Markdown::is_commenting_enabled() && 'comment' === get_current_screen()->base ) {
-			return true;
-		}
-
-		// Post edit screen.
-		if ( in_array( get_current_screen()->post_type, $this->get_post_types() ) ) {
-			return true;
-		}
-		return false;
+	function get_post_type() {
+		return get_current_screen()->post_type;
 	}
 
 	/**
@@ -124,7 +91,7 @@ class Markdown_Editor {
 	function enqueue_scripts_styles() {
 
 		// Only enqueue on specified post types.
-		if ( ! $this->post_types() ) {
+		if ( ! post_type_supports( $this->get_post_type(), 'wpcom-markdown' ) ) {
 			return;
 		}
 
@@ -198,7 +165,7 @@ class Markdown_Editor {
 	function init_editor() {
 
 		// Only initialize on specified post types.
-		if ( ! $this->post_types() ) {
+		if ( ! post_type_supports( $this->get_post_type(), 'wpcom-markdown' ) ) {
 			return;
 		}
 		?>
@@ -265,7 +232,7 @@ class Markdown_Editor {
 	function quicktags_settings( $qt_init ) {
 
 		// Only remove buttons on specified post types.
-		if ( ! $this->post_types() ) {
+		if ( ! post_type_supports( $this->get_post_type(), 'wpcom-markdown' ) ) {
 			return $qt_init;
 		}
 
@@ -282,9 +249,10 @@ class Markdown_Editor {
 	 */
 	function disable_rich_editing( $default ) {
 
-		if ( in_array( get_post_type(), $this->get_post_types(), true ) ) {
+		if ( post_type_supports( $this->get_post_type(), 'wpcom-markdown' ) ) {
 			return false;
 		}
+
 		return $default;
 	}
 }

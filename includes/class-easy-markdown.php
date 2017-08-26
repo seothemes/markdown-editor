@@ -377,7 +377,6 @@ class Easy_Markdown {
 	 */
 	public function add_default_post_type_support() {
 		add_post_type_support( 'post', self::POST_TYPE_SUPPORT );
-		add_post_type_support( 'page', self::POST_TYPE_SUPPORT );
 		add_post_type_support( 'revision', self::POST_TYPE_SUPPORT );
 	}
 

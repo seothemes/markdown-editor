@@ -3,7 +3,7 @@
  * Plugin Name: Markdown Editor
  * Plugin URI:  https://github.com/seothemes/markdown-editor
  * Description: Replaces the default WordPress editor with a Markdown editor for your posts and pages.
- * Version:     0.1.1
+ * Version:     0.1.3
  * Author:      SEO Themes
  * Author URI:  https://www.seothemes.com
  * License:     GPL-2.0+
@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Define constants.
-define( 'PLUGIN_VERSION', '0.1.1' );
+define( 'PLUGIN_VERSION', '0.1.3' );
 define( 'MINIMUM_WP_VERSION', '4.8' );
 define( 'PLUGIN_NAME', plugin_basename( __FILE__ ) );
 define( 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -36,3 +36,5 @@ include_once PLUGIN_DIR . 'includes/class-markdown-editor.php';
 
 // Get class instance.
 Markdown_Editor::get_instance();
+
+remove_theme_support( 'page', 'wpcom-markdown' );

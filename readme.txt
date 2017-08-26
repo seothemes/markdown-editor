@@ -1,4 +1,4 @@
-=== Markdown ===
+=== Markdown Editor ===
 Contributors: seothemes
 Tags: markdown, editor
 Donate link: https://seothemes.com
@@ -10,11 +10,18 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 Replaces the default WordPress editor with a Markdown editor for your posts and pages.
 
 == Description ==
-Markdown replaces the default WordPress editor with a Markdown editor for your posts and pages. This plugin uses the Jetpack Markdown module for converting Markdown into HTML and plays nicely with Jetpack if both plugins are installed.
+Markdown Editor replaces the default WordPress editor with a Markdown editor for your posts and pages. This plugin uses the Jetpack Markdown module for converting Markdown into HTML and plays nicely with Jetpack if both plugins are installed.
 
 There are 4 editor layouts to choose from when writing posts: default, preview, full-screen and split screen. Changes are updated automatically allowing you to preview your content as you write.
 
-Markdown is developer friendly. Filters are available for choosing which post types the Markdown editor should be applied to. 
+By default Markdown Editor is only enabled on Posts, but you can enable it on pages and custom post types by adding post type support. For example to add Markdown support to Pages, add the following line of code to your theme's functions.php file:
+
+`add_post_type_support( 'page', 'wpcom-markdown' );`
+
+To add Markdown support to a 'Product' custom post type, add this to your theme's functions.php file:
+
+`add_post_type_support( 'product', 'wpcom-markdown' );`
+
 
 == Installation ==
 
@@ -39,5 +46,12 @@ Manual Plugin Installation
 
 
 == Changelog ==
+
+= 2017/08/27 - 0.1.3 =
+* Fix `post_type_support` - use `wpcom-markdown`.
+
+= 2017/08/15 - 0.1.2 =
+* Use `add_post_type_support` instead of filter.
+
 = 2017/08/01 - 0.1.0 =
 * Initial release.
